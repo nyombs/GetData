@@ -1,6 +1,3 @@
-
-
-
 ##read features and activity labels
 activitylabels = read.table("UCI-HAR/UCI HAR Dataset/activity_labels.txt", header=FALSE)
 names(activitylabels) = c("id", "labels")
@@ -8,14 +5,14 @@ names(activitylabels) = c("id", "labels")
 features = read.table("UCI-HAR/UCI HAR Dataset/features.txt", header=FALSE)
 names(features) = c("id", "labels")
 
-##Reading test data
+##Reading test data and adding more friendly variable names
 testsubjects = read.table("UCI-HAR/UCI HAR Dataset/test/subject_test.txt", header=FALSE)
 names(testsubjects) = c("subjectid")
 testactivity = read.table("UCI-HAR/UCI HAR Dataset/test/y_test.txt", header=FALSE)
 names(testactivity) = c("activityid")
 testData = read.table("UCI-HAR/UCI HAR Dataset/test/X_test.txt", header=FALSE)
 
-##Reading train data
+##Reading train data and adding more friendly variable names
 trainsubjects = read.table("UCI-HAR/UCI HAR Dataset/train/subject_train.txt", header=FALSE)
 names(trainsubjects) = c("subjectid")
 trainactivity = read.table("UCI-HAR/UCI HAR Dataset/train/y_train.txt", header=FALSE)
@@ -38,11 +35,11 @@ data2 = cbind(trainsubjects$subjectid, as.character(trainactivity$activityid))
 data2 = cbind(data2, trainData[,meanstdlabels])
 
 data = rbind(data1, data2)
-rm(testData, trainData, data1, data2)
+
 
 names(data) = c("subjectId", "activity", as.character(features$labels[meanstdlabels]))
 
-#calculate the mean of all mean and standard deviation variables
+#calculate the mean of all mean variables and standard deviation variables
 newdata = aggregate(data[3:68], by=list(subjectId=data$subjectId, activity=data$activity), mean)
 
 ## giving them a respectable name
